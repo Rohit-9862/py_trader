@@ -2,10 +2,11 @@ import yfinance as yf
 import pandas as pd
 
 # Define the list of symbols (empty for now)
-symbols = ['BTC-USD']
+symbols = ['LINA', 'AUCTION','RAY','T','FIM','PEPE','FLOW','ARKM','RENER','LAYER','POLYX','ETH','BTT','1INCH','RED','SOL','XRP','BTC','TRX']
+
 
 # Define the date range
-start_date = "2024-02-01"
+start_date = "2024-01-01"
 end_date = "2025-03-01"
 interval = '1h'
 
@@ -19,6 +20,7 @@ def fetch(symbol):
     return df
 
 for s in symbols:
+    s = s+'-USD'
     data = fetch(s)
     #for training data i.e, 1-year-data
     data.to_csv(f"data/1-year-data/{s}.csv")
