@@ -5,7 +5,7 @@ from xgboost import XGBClassifier
 from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score
 
 
-symbols = ['AUCTION','RAY','T','FIM','PEPE','FLOW','ARKM','RENER','LAYER','POLYX','ETH','BTT','1INCH','RED','SOL','XRP','BTC','TRX']
+symbols = ['AUCTION','RAY','T','FLOW','ARKM','LAYER','POLYX','ETH','BTT','1INCH','RED','SOL','XRP','BTC','TRX']
 # Define paths for training and testing data
 train_path = "data/1-year-data/"  # Add the actual path
 test_path = "data/testing-data/"   # Add the actual path
@@ -29,6 +29,7 @@ def add_technical_indicators(df):
 
     # Volume Indicator
     df["OBV"] = ta.volume.on_balance_volume(df["Close"], df["Volume"])
+    df['Target'] = np.where(df["Close"].shift(-1)>=df["Close"]*1.03,1,0)
 
     # Drop NaN values generated from indicators
     df = df.dropna()
@@ -36,6 +37,7 @@ def add_technical_indicators(df):
     return df
 
 for i in symbols:
+    print(f"Working to token {i}")
     # Read CSV files
     train_df = pd.read_csv(train_path+f'{i}-USD.csv')
     test_df = pd.read_csv(test_path+f"{i}-USD.csv")
@@ -45,7 +47,6 @@ for i in symbols:
     test_df = add_technical_indicators(test_df)
 
     # Define target variable (Price increase by 3%)
-    train_df["Target"] = np.where(train_df["Close"].shift(-1) >= train_df["Close"] * 1.03, 1, 0)
 
     # Remove the last row as it does not contain a valid target
     train_df = train_df.iloc[:-1]
