@@ -7,7 +7,7 @@ import os
 binance = ccxt.binance()
 
 # Define multiple trading pairs
-symbols = ["BTC/USDT", "ETH/USDT", "BNB/USDT"]  # Add more as needed
+symbols = [""]#["BTC/USDT", "ETH/USDT", "BNB/USDT"]  # Add more as needed
 timeframe = "1h"
 
 # Define date range
